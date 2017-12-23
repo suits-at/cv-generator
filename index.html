@@ -7,12 +7,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
   <!--googe charts-->
   <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <!--html2canvas-->
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <!-- fontawesome-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!--google fonts-->
   <link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
   <style>
-    html{
+    html {
       font-family: 'Work Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
       color: #444;
 
@@ -20,27 +22,88 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+
+    .fa {
+      font-size: 3rem;
+    }
+    #digital{
+      display: grid;
+      grid-template-columns: 3fr 7fr;
+      grid-gap: 10vmin;
+    }
+    #proficiencyLevel{
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    #legend{
+      text-align: right;
+    }
   </style>
 </head>
 <body>
-<h1>Timeline</h1>
+<h1>Schul- und Berufsausbildung / Berufserfahrung</h1>
 <div id="timeline" style="height: 400px;"></div>
 <div id="canvas-holder" style="width:50%">
   <h1>Sprachkenntnisse</h1>
   <canvas id="chart-area"></canvas>
 </div>
+
 <h1>Digitale Kompetenzen</h1>
-<!--TODO: make sprites with 1-3 stars + description for every possible data combiniation-->
-<!--adjust images to fit style of other charts (flat)-->
-<!--optional: change color of stars?-->
-<img src="img/legende.png" width="150" style="float: left; margin-right: 100px">
-
-<img src="img/1.png">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="img/2.png">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="img/3.png"><br><br>
-<img src="img/4.png">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="img/5.png">
-
+<div id="digital">
+  <div id="legend">
+  <div class="star">
+    <i class="fa fa-star" aria-hidden="true"></i>
+    <i class="fa fa-star-o" aria-hidden="true"></i>
+    <i class="fa fa-star-o" aria-hidden="true"></i>
+    <p>elementare Verwendung</p>
+  </div>
+  <div class="star">
+    <i class="fa fa-star" aria-hidden="true"></i>
+    <i class="fa fa-star" aria-hidden="true"></i>
+    <i class="fa fa-star-o" aria-hidden="true"></i>
+    <p>selbstständige Verwendung</p>
+  </div>
+  <div class="star">
+    <i class="fa fa-star" aria-hidden="true"></i>
+    <i class="fa fa-star" aria-hidden="true"></i>
+    <i class="fa fa-star" aria-hidden="true"></i>
+    <p>kompetente Verwendung</p>
+  </div>
+  </div>
+  <div id="proficiencyLevel">
+    <div class="star">
+      <p>Datenverarbeitung</p>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <i class="fa fa-star" aria-hidden="true"></i>
+    </div>
+    <div class="star">
+      <p>Kommunikation</p>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <i class="fa fa-star-o" aria-hidden="true"></i>
+    </div>
+    <div class="star">
+      <p>Erstellung von Inhalten</p>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <i class="fa fa-star" aria-hidden="true"></i>
+    </div>
+    <div class="star">
+      <p>Sicherheit</p>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <i class="fa fa-star-o" aria-hidden="true"></i>
+    </div>
+    <div class="star">
+      <p>Problemlösung</p>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <i class="fa fa-star" aria-hidden="true"></i>
+    </div>
+  </div>
+</div>
+<button id="download">download Images</button>
 <!--google charts timeline-->
 <script type="text/javascript">
   google.charts.load("current", {packages: ["timeline"]});
@@ -64,9 +127,22 @@
     ]);
 
     const options = {
-      timeline: {groupByRowLabel: false, colorByRowLabel: false, showRowLabels: true, rowLabelStyle: {fontName: "'Work Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif", color: '#444', fontSize: 14 },
-        barLabelStyle: { fontName: "'Work Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif", color: '#444', fontSize: 14 }},
-      colors: ['#deebf7', '#deebf7', '#deebf7', '#9ecae1','#9ecae1','#9ecae1'],
+      timeline: {
+        groupByRowLabel: false,
+        colorByRowLabel: false,
+        showRowLabels: true,
+        rowLabelStyle: {
+          fontName: "'Work Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+          color: '#444',
+          fontSize: 14
+        },
+        barLabelStyle: {
+          fontName: "'Work Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+          color: '#444',
+          fontSize: 14
+        }
+      },
+      colors: ['#deebf7', '#deebf7', '#deebf7', '#9ecae1', '#9ecae1', '#9ecae1'],
     };
     chart.draw(dataTable, options);
   }
@@ -174,6 +250,27 @@
     const ctx = document.getElementById("chart-area");
     window.myPolarArea = Chart.PolarArea(ctx, config);
   };
+
+</script>
+<!--createImage from timeline and proficiencyLevel-->
+<script>
+  //document ready
+  function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
+  r(function(){
+    //convert timeline to image
+    html2canvas(document.querySelector("#timeline")).then(function(canvas) {
+      const item = document.querySelector("#timeline");
+      item.innerHTML = '';
+      item.appendChild(canvas);
+    });
+
+    //convert proficiencyLevel to image
+    html2canvas(document.querySelector("#digital")).then(function(canvas) {
+      const item = document.querySelector("#digital");
+      item.innerHTML = '';
+      item.appendChild(canvas);
+    });
+  });
 
 </script>
 </body>
