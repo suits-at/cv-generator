@@ -22,7 +22,13 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-
+    #container{
+      width: 1000px;
+    }
+    p{
+      font-size: 16px;
+      font-weight: bold;
+    }
     .fa {
       font-size: 3rem;
     }
@@ -41,6 +47,7 @@
   </style>
 </head>
 <body>
+<div id="container">
 <h1>Schul- und Berufsausbildung / Berufserfahrung</h1>
 <div id="timeline" style="height: 400px;"></div>
 <div id="canvas-holder" style="width:50%">
@@ -104,6 +111,7 @@
   </div>
 </div>
 <button id="download">download Images</button>
+</div>
 <!--google charts timeline-->
 <script type="text/javascript">
   google.charts.load("current", {packages: ["timeline"]});
@@ -258,14 +266,14 @@
   function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
   r(function(){
     //convert timeline to image
-    html2canvas(document.querySelector("#timeline")).then(function(canvas) {
+    html2canvas(document.querySelector("#timeline")).then(canvas => {
       const item = document.querySelector("#timeline");
       item.innerHTML = '';
       item.appendChild(canvas);
     });
 
     //convert proficiencyLevel to image
-    html2canvas(document.querySelector("#digital")).then(function(canvas) {
+    html2canvas(document.querySelector("#digital")).then(canvas => {
       const item = document.querySelector("#digital");
       item.innerHTML = '';
       item.appendChild(canvas);
