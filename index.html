@@ -9,6 +9,18 @@
   <script src="https://www.gstatic.com/charts/loader.js"></script>
   <!-- fontawesome-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!--google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
+  <style>
+    html{
+      font-family: 'Work Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+      color: #444;
+
+      /* enable smoother fonts */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  </style>
 </head>
 <body>
 <h1>Timeline</h1>
@@ -35,9 +47,9 @@
   google.charts.setOnLoadCallback(drawChart);
 
   function drawChart() {
-    var container = document.getElementById('timeline');
-    var chart = new google.visualization.Timeline(container);
-    var dataTable = new google.visualization.DataTable();
+    const container = document.getElementById('timeline');
+    const chart = new google.visualization.Timeline(container);
+    const dataTable = new google.visualization.DataTable();
     dataTable.addColumn({type: 'string', id: 'Position'});
     dataTable.addColumn({type: 'string', id: 'Name'});
     dataTable.addColumn({type: 'date', id: 'Start'});
@@ -51,8 +63,9 @@
       ['.', 'Webdeveloper, selbstständig', new Date(2016, 2, 4), new Date(2017, 2, 4)],
     ]);
 
-    var options = {
-      timeline: {groupByRowLabel: false, colorByRowLabel: false, showRowLabels: true},
+    const options = {
+      timeline: {groupByRowLabel: false, colorByRowLabel: false, showRowLabels: true, rowLabelStyle: {fontName: "'Work Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif", color: '#444', fontSize: 14 },
+        barLabelStyle: { fontName: "'Work Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif", color: '#444', fontSize: 14 }},
       colors: ['#deebf7', '#deebf7', '#deebf7', '#9ecae1','#9ecae1','#9ecae1'],
     };
     chart.draw(dataTable, options);
@@ -61,7 +74,7 @@
 
 <!--chart.js polar area chart-->
 <script>
-  var randomScalingFactor = function() {
+  const randomScalingFactor = function() {
     return Math.round(Math.random() * 6);
   };
 
@@ -73,9 +86,13 @@
     blue: '#0868ac',
   };
 
-  var chartColors = window.chartColors;
-  var color = Chart.helpers.color;
-  var config = {
+  const chartColors = window.chartColors;
+  const color = Chart.helpers.color;
+  Chart.defaults.global.defaultFontColor = '#444';
+  Chart.defaults.global.defaultFontFamily = "'Work Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif";
+  Chart.defaults.global.defaultFontSize = 14;
+
+  const config = {
     data: {
       datasets: [{
         data: [
@@ -125,7 +142,7 @@
           suggestedMin: 6,
           suggestedMax: 6,
           stepSize: 1,
-          callback: function(label, index, labels) {
+          callback: function(label) {
             switch (label) {
               case 0:
                 return 'ZERO';
@@ -154,7 +171,7 @@
   };
 
   window.onload = function() {
-    var ctx = document.getElementById("chart-area");
+    const ctx = document.getElementById("chart-area");
     window.myPolarArea = Chart.PolarArea(ctx, config);
   };
 
