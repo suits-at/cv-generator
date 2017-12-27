@@ -453,12 +453,12 @@
   //document ready
   function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
   r(function(){
-    //convert timeline to image
-    // html2canvas(document.querySelector("#timeline")).then(canvas => {
-    //   const item = document.querySelector("#timeline");
-    //   item.innerHTML = '';
-    //   item.appendChild(canvas);
-    // });
+    // convert timeline to image
+    html2canvas(document.querySelector("#timeline")).then(canvas => {
+      const item = document.querySelector("#timeline");
+      item.innerHTML = '';
+      item.appendChild(canvas);
+    });
 
     //convert proficiencyLevel to image
     html2canvas(document.querySelector("#digital")).then(canvas => {
