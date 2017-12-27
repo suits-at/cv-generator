@@ -23,7 +23,7 @@
       -moz-osx-font-smoothing: grayscale;
     }
     #container{
-      width: 1000px;
+      width: 1060px;
     }
     #legend p{
       font-size: 16px;
@@ -53,7 +53,7 @@
 <body>
 <div id="container">
 <h1>Schul- und Berufsausbildung / Berufserfahrung</h1>
-<div id="timeline" style="height: 400px;"></div>
+<div id="timeline" style="height: 500px;"></div>
 <div id="canvas-holder" style="width:50%">
   <h1>Sprachkenntnisse</h1>
   <canvas id="chart-area1"></canvas>
@@ -136,9 +136,9 @@
       }
       drawRoseChart();
 
-      //read workexperience & education
+      //read workexperience
       const jobs = cv.skillspassport.learnerinfo.workexperiencelist.workexperience;
-      for (i = 0; i < jobs.length; i++) {
+      for (let i = 0; i < jobs.length; i++) {
         let fromYear = jobs[i].period.from["@year"];
         let fromMonth = jobs[i].period.from["@month"].toString();
         fromMonth = fromMonth.split(" ");
@@ -146,7 +146,7 @@
         let fromDate = new Date(fromYear, fromMonth);
 
         let toDate = new Date();
-        if (jobs[i].period.to != undefined){
+        if (jobs[i].period.to !== undefined){
           let toYear = jobs[i].period.to["@year"];
           let toMonth = jobs[i].period.to["@month"].toString();
           toMonth = toMonth.split(" ");
@@ -154,12 +154,40 @@
           toDate = new Date(toYear, toMonth);
         }
         jobData[i] = [];
-        let label = 'Schul- und Berufssbildung';
+        let label = 'Berufserfahrung';
         if (i !== 0){
           label = '.';
         }
         jobData[i].push(label, jobs[i].position.label + ', ' + jobs[i].employer.name.toString(), fromDate, toDate);
+        console.log(jobData);
       }
+      // read education
+      const education = cv.skillspassport.learnerinfo.educationlist.education;
+      console.log(education);
+
+      for (let i = 0; i < education.length; i++) {
+        let fromYear = education[i].period.from["@year"];
+        let fromMonth = education[i].period.from["@month"].toString();
+        fromMonth = fromMonth.split(" ");
+        fromMonth = fromMonth[2];
+        let fromDate = new Date(fromYear, fromMonth);
+
+        let toDate = new Date();
+        if (education[i].period.to !== undefined){
+          let toYear = education[i].period.to["@year"];
+          let toMonth = education[i].period.to["@month"].toString();
+          toMonth = toMonth.split(" ");
+          toMonth = toMonth[2];
+          toDate = new Date(toYear, toMonth);
+        }
+        jobData[i+jobs.length] = [];
+        let label = 'Schul- und Berufssbildung';
+        if (i !== 0){
+          label = '.';
+        }
+        jobData[i+jobs.length].push(label, education[i].title + ', ' + education[i].organisation.name.toString(), fromDate, toDate);
+      }
+
     }
   };
   xhr.open("GET", "data/cv.xml", true);
@@ -227,11 +255,6 @@
     Chart.defaults.global.defaultFontColor = '#444';
     Chart.defaults.global.defaultFontFamily = "'Work Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif";
     Chart.defaults.global.defaultFontSize = 14;
-
-    // console.log(languageDataLabel);
-    // console.log(languageData);
-    // console.log(languageDataLabel[0]);
-    // console.log(languageData[1].listening);
 
     let config = [];
     for(i=0; i<languageDataLabel.length;i++){
@@ -345,8 +368,6 @@
   google.charts.setOnLoadCallback(drawChart);
 
   function drawChart() {
-    // console.log(jobData);
-
     const container = document.getElementById('timeline');
     const chart = new google.visualization.Timeline(container);
     const dataTable = new google.visualization.DataTable();
