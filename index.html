@@ -122,6 +122,7 @@
   let languageDataLabel = [];
   let languageData = [];
   let jobData = [];
+  let colorCounter = [];
   const xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function() {
     if (this.readyState === 4 && this.status === 200) {
@@ -138,6 +139,7 @@
 
       //read workexperience
       const jobs = cv.skillspassport.learnerinfo.workexperiencelist.workexperience;
+      colorCounter['jobs'] = jobs.length;
       for (let i = 0; i < jobs.length; i++) {
         let fromYear = jobs[i].period.from["@year"];
         let fromMonth = jobs[i].period.from["@month"].toString();
@@ -159,12 +161,10 @@
           label = '.';
         }
         jobData[i].push(label, jobs[i].position.label + ', ' + jobs[i].employer.name.toString(), fromDate, toDate);
-        console.log(jobData);
       }
       // read education
       const education = cv.skillspassport.learnerinfo.educationlist.education;
-      console.log(education);
-
+      colorCounter['education'] = education.length;
       for (let i = 0; i < education.length; i++) {
         let fromYear = education[i].period.from["@year"];
         let fromMonth = education[i].period.from["@month"].toString();
@@ -375,14 +375,22 @@
     dataTable.addColumn({type: 'string', id: 'Name'});
     dataTable.addColumn({type: 'date', id: 'Start'});
     dataTable.addColumn({type: 'date', id: 'End'});
-    dataTable.addRows(jobData
-      // ['Schul- und Berufssbildung', 'Matura, HTBLA Rennweg', new Date(2005, 7, 1), new Date(2010, 6, 1)],
-      // ['.', 'Bachelor of Arts in Social Sciences, FH Oberösterreich', new Date(2012, 2, 4), new Date(2015, 2, 4)],
-      // ['.', 'Dipl. Ing., FH St. Pölten', new Date(2015, 2, 4), new Date(2018, 2, 4)],
-      // ['Berufserfahrung', 'Angestellter in der EDV-Abteilung, Wiener Hilfwerk', new Date(2010, 3, 21), new Date(2012, 2, 4)],
-      // ['.', 'Berufspraktikum als Webdeveloper, Typoheads GmbH', new Date(2016, 2, 4), new Date(2016, 8, 4)],
-      // ['.', 'Webdeveloper, selbstständig', new Date(2016, 2, 4), new Date(2017, 2, 4)],
-    );
+    dataTable.addRows(jobData);
+
+    //define colors for each group of data
+    const color1 = '#deebf7';
+    const color2 = '#9ecae1';
+    let colors = [];
+
+    //add colors for jobs
+    for (let i = 0; i < colorCounter['jobs']; i++){
+      colors.push(color1);
+    }
+
+    //add colors for education
+    for (let i = 0; i < colorCounter['education']; i++){
+      colors.push(color2);
+    }
 
     const options = {
       timeline: {
@@ -400,7 +408,7 @@
           fontSize: 14
         }
       },
-      colors: ['#deebf7', '#deebf7', '#deebf7', '#9ecae1', '#9ecae1', '#9ecae1'],
+      colors: colors,
     };
     chart.draw(dataTable, options);
   }
