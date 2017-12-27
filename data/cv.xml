@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+﻿<?xml version='1.0' encoding='UTF-8'?>
 <SkillsPassport xmlns="http://europass.cedefop.europa.eu/Europass" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://europass.cedefop.europa.eu/Europass http://europass.cedefop.europa.eu/xml/v3.3.0/EuropassSchema.xsd"
                 locale="de">
@@ -3299,11 +3299,11 @@
       </JobRelated>
       <Computer>
         <ProficiencyLevel>
-          <Information>C</Information>
-          <Communication>C</Communication>
+          <Information>A</Information>
+          <Communication>B</Communication>
           <ContentCreation>C</ContentCreation>
-          <Safety>C</Safety>
-          <ProblemSolving>C</ProblemSolving>
+          <Safety>A</Safety>
+          <ProblemSolving>B</ProblemSolving>
         </ProficiencyLevel>
       </Computer>
       <Driving>

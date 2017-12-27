@@ -83,36 +83,11 @@
   </div>
   </div>
   <div id="proficiencyLevel">
-    <div class="star">
-      <p>Datenverarbeitung</p>
-      <i class="fa fa-star" aria-hidden="true"></i>
-      <i class="fa fa-star" aria-hidden="true"></i>
-      <i class="fa fa-star" aria-hidden="true"></i>
-    </div>
-    <div class="star">
-      <p>Kommunikation</p>
-      <i class="fa fa-star" aria-hidden="true"></i>
-      <i class="fa fa-star" aria-hidden="true"></i>
-      <i class="fa fa-star-o" aria-hidden="true"></i>
-    </div>
-    <div class="star">
-      <p>Erstellung von Inhalten</p>
-      <i class="fa fa-star" aria-hidden="true"></i>
-      <i class="fa fa-star" aria-hidden="true"></i>
-      <i class="fa fa-star" aria-hidden="true"></i>
-    </div>
-    <div class="star">
-      <p>Sicherheit</p>
-      <i class="fa fa-star" aria-hidden="true"></i>
-      <i class="fa fa-star" aria-hidden="true"></i>
-      <i class="fa fa-star-o" aria-hidden="true"></i>
-    </div>
-    <div class="star">
-      <p>Problemlösung</p>
-      <i class="fa fa-star" aria-hidden="true"></i>
-      <i class="fa fa-star" aria-hidden="true"></i>
-      <i class="fa fa-star" aria-hidden="true"></i>
-    </div>
+    <div class="star" id="information"></div>
+    <div class="star" id="communication"></div>
+    <div class="star" id="contentcreation"></div>
+    <div class="star" id="safety"></div>
+    <div class="star" id="problemsolving"></div>
   </div>
 </div>
 <!--<button id="download">download Images</button>-->
@@ -188,6 +163,67 @@
         jobData[i+jobs.length].push(label, education[i].title + ', ' + education[i].organisation.name.toString(), fromDate, toDate);
       }
 
+      // read digital competences
+      const digital = cv.skillspassport.learnerinfo.skills.computer.proficiencylevel;
+
+      let oneStar = '<i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i>';
+      let twoStar = '<i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i>';
+      let threeStar = '<i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>';
+      let el;
+      let p;
+
+
+      el = document.getElementById('information');
+      p = '<p>Datenverarbeitung</p>';
+      if(digital.information === 'A'){
+        el.innerHTML = p + oneStar;
+      } else if (digital.information === 'B') {
+        el.innerHTML = p + twoStar;
+      } else if (digital.information === 'C') {
+        el.innerHTML = p + threeStar;
+      }
+
+      el = document.getElementById('communication');
+      p = '<p>Kommunikation</p>';
+      if(digital.communication === 'A'){
+        console.log('yes!');
+        el.innerHTML = p + oneStar;
+        console.log(el);
+      } else if (digital.communication === 'B') {
+        el.innerHTML = p + twoStar;
+      } else if (digital.communication === 'C') {
+        el.innerHTML = p + threeStar;
+      }
+
+      el = document.getElementById('contentcreation');
+      p = '<p>Erstellung von Inhalten</p>';
+      if(digital.contentcreation === 'A'){
+        el.innerHTML = p + oneStar;
+      } else if (digital.contentcreation === 'B') {
+        elinnerHTML = p + twoStar;
+      } else if (digital.contentcreation === 'C') {
+        el.innerHTML = p + threeStar;
+      }
+
+      el = document.getElementById('safety');
+      p = '<p>Sicherheit</p>';
+      if(digital.safety === 'A'){
+        el.innerHTML = p + oneStar;
+      } else if (digital.safety === 'B') {
+        el.innerHTML = p + twoStar;
+      } else if (digital.safety === 'C') {
+        el.innerHTML = p + threeStar;
+      }
+
+      el = document.getElementById('problemsolving');
+      p = '<p>Problemlösung</p>';
+      if(digital.problemsolving === 'A'){
+        el.innerHTML = p + oneStar;
+      } else if (digital.problemsolving === 'B') {
+        el.innerHTML = p + twoStar;
+      } else if (digital.problemsolving === 'C') {
+        el.innerHTML = p + threeStar;
+      }
     }
   };
   xhr.open("GET", "data/cv.xml", true);
@@ -418,11 +454,11 @@
   function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
   r(function(){
     //convert timeline to image
-    html2canvas(document.querySelector("#timeline")).then(canvas => {
-      const item = document.querySelector("#timeline");
-      item.innerHTML = '';
-      item.appendChild(canvas);
-    });
+    // html2canvas(document.querySelector("#timeline")).then(canvas => {
+    //   const item = document.querySelector("#timeline");
+    //   item.innerHTML = '';
+    //   item.appendChild(canvas);
+    // });
 
     //convert proficiencyLevel to image
     html2canvas(document.querySelector("#digital")).then(canvas => {
