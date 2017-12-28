@@ -50,24 +50,26 @@
     #legend{
       text-align: right;
     }
+    .hidden{
+      visibility: hidden;
+    }
   </style>
 </head>
 <body>
-<!-- TODO: inject headlines & legend dynamic -->
 <!--TODO: improve design + add description -->
 <div id="container">
-    <input type="file" id="files" name="files[]" />
-    <output id="list"></output>
-<h1>Schul- und Berufsausbildung / Berufserfahrung</h1>
+<input type="file" id="files" name="files[]" />
+<output id="list"></output>
+<h1 id="timelineHeading" class="hidden">Berufserfahrung / Schul- und Berufsausbildung </h1>
 <div id="timeline" style="height: 500px;"></div>
 <div id="canvas-holder" style="width:50%">
-  <h1>Sprachkenntnisse</h1>
-  <canvas id="chart-area1"></canvas>
-  <canvas id="chart-area2"></canvas>
+  <h1 id="roseChartHeading" class="hidden">Sprachkenntnisse</h1>
+  <canvas id="roseChart1"></canvas>
+  <canvas id="roseChart2"></canvas>
 </div>
 
-<h1>Digitale Kompetenzen</h1>
-<div id="digital">
+<h1 id="starRatingHeading" class="hidden">Digitale Kompetenzen</h1>
+<div id="digital" class="hidden">
   <div id="legend">
   <div class="star">
     <i class="fa fa-star" aria-hidden="true"></i>
@@ -98,16 +100,17 @@
 </div>
 </div>
 <script>
-// google charts timeline
+// load google charts timeline package
 google.charts.load("current", {packages: ["timeline"]});
 
+// initiate globals
 let languageDataLabel = [];
 let languageData = [];
 let jobData = [];
 let colorCounter = [];
+let file = '';
 
 // upload file
-let file = '';
 function handleFileSelect(e) {
     file = e.target.files[0]; // FileList object
     let reader = new FileReader();
@@ -122,24 +125,28 @@ function handleFileSelect(e) {
 // listen for file changes
 document.getElementById('files').addEventListener('change', handleFileSelect, false);
 
-// read uploaded file
+// read xml data from uploaded file
+// draw visualizations
 function readFile() {
-    // read data from xml
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             const doc = xhr.responseXML;
             const cv = getJXONTree(doc);
 
-            readLanguages(cv);
-            drawRoseChart();
-
+            // timeline
             readWorkexperience(cv);
             readEducation(cv);
             google.charts.setOnLoadCallback(drawTimeline);
 
+            // rose charts
+            readLanguages(cv);
+            drawRoseChart();
+
+            // star ratings
             readDCDrawStarRatings(cv);
 
+            // convert charts to images
             createImages();
         }
     };
@@ -147,7 +154,8 @@ function readFile() {
     xhr.send();
 }
 
-<!--chart.js rose chart-->
+// chart.js rose chart
+// TODO: create multiple roseCharts dynamically
 function drawRoseChart() {
     window.chartColors = {
         color1: '#f0f9e8',
@@ -260,12 +268,17 @@ function drawRoseChart() {
         };
     }
 
-    const chart1 = document.getElementById("chart-area1");
-    const chart2 = document.getElementById("chart-area2");
+    //add chart heading
+    document.getElementById('roseChartHeading').classList.remove('hidden');
+
+    //draw charts
+    const chart1 = document.getElementById("roseChart1");
+    const chart2 = document.getElementById("roseChart2");
     window.myPolarArea = Chart.PolarArea(chart1, config[0]);
     window.myPolarArea = Chart.PolarArea(chart2, config[1]);
 }
 
+// goole charts timeline
 function drawTimeline() {
     const container = document.getElementById('timeline');
     const chart = new google.visualization.Timeline(container);
@@ -309,10 +322,15 @@ function drawTimeline() {
         },
         colors: colors,
     };
+    // set heading to visible
+    document.getElementById('timelineHeading').classList.remove('hidden');
+
+    // draw timeline
     chart.draw(dataTable, options);
 }
 
 // read digital competences
+// draw starRatings with fontawesome
 function readDCDrawStarRatings(cv) {
     const digital = cv.skillspassport.learnerinfo.skills.computer.proficiencylevel;
 
@@ -321,6 +339,12 @@ function readDCDrawStarRatings(cv) {
     let threeStar = '<i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>';
     let el;
     let p;
+
+    //add starRatingheading
+    document.getElementById('starRatingHeading').classList.remove('hidden');
+
+    //set legend to visible
+    document.getElementById('digital').classList.remove('hidden');
 
     el = document.getElementById('information');
     p = '<p>Datenverarbeitung</p>';
@@ -373,7 +397,7 @@ function readDCDrawStarRatings(cv) {
     }
 }
 
-//read workexperience
+// read workexperience
 //TODO: resolve code duplication of date generation
 function readWorkexperience (cv) {
     const jobs = cv.skillspassport.learnerinfo.workexperiencelist.workexperience;
@@ -417,19 +441,20 @@ function readWorkexperience (cv) {
 
 // change Month from string to number
 function lookupMonth (month) {
-    let m =
-      month == 'Jan' ? 1 :
-      month == 'Feb' ? 2 :
-      month == 'Mar' ? 3 :
-      month == 'Apr' ? 4 :
-      month == 'May' ? 5 :
-      month == 'Jun' ? 6 :
-      month == 'Jul' ? 7 :
-      month == 'Aug' ? 8 :
-      month == 'Sep' ? 9 :
-      month == 'Oct' ? 10 :
-      month == 'Nov'? 11 :
-      month == 'Dec' ? 12 :
+    let m;
+    m =
+      month === 'Jan' ? 1 :
+      month === 'Feb' ? 2 :
+      month === 'Mar' ? 3 :
+      month === 'Apr' ? 4 :
+      month === 'May' ? 5 :
+      month === 'Jun' ? 6 :
+      month === 'Jul' ? 7 :
+      month === 'Aug' ? 8 :
+      month === 'Sep' ? 9 :
+      month === 'Oct' ? 10 :
+      month === 'Nov'? 11 :
+      month === 'Dec' ? 12 :
       '';
     return m;
 }
@@ -477,7 +502,7 @@ function readEducation (cv) {
     }
 }
 
-//read languages
+// read languages
 function readLanguages (cv) {
     const languages = cv.skillspassport.learnerinfo.skills.linguistic.foreignlanguagelist.foreignlanguage;
     for (let i = 0; i < languages.length; i++) {
@@ -486,9 +511,9 @@ function readLanguages (cv) {
     }
 }
 
+// convert timeline and starRating to images
 function createImages () {
-// createImage from timeline and proficiencyLevel
-//document ready
+  // document ready
   function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
   r(function(){
       // convert timeline to image
@@ -498,7 +523,7 @@ function createImages () {
           item.appendChild(canvas);
       });
 
-      //convert proficiencyLevel to image
+      // convert starRating to image
       html2canvas(document.querySelector("#digital")).then(canvas => {
           const item = document.querySelector("#digital");
           item.innerHTML = '';
@@ -518,6 +543,7 @@ function createImages () {
 |*|  http://www.gnu.org/licenses/gpl-3.0-standalone.html
 |*|
 \*/
+// helper function to convert xml to js object
 function parseText (sValue) {
     if (/^\s*$/.test(sValue)) { return null; }
     if (/^(?:true|false)$/i.test(sValue)) { return sValue.toLowerCase() === "true"; }
@@ -525,6 +551,8 @@ function parseText (sValue) {
     if (isFinite(Date.parse(sValue))) { return new Date(sValue); }
     return sValue;
 }
+
+// helper function to convert xml to js object
 function getJXONTree (oXMLParent) {
     let vResult = /* put here the default value for empty nodes! */ true, nLength = 0, sCollectedTxt = "";
     if (oXMLParent.hasAttributes && oXMLParent.hasAttributes()) {
