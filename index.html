@@ -372,23 +372,36 @@ function readDCDrawStarRatings(cv) {
 }
 
 //read workexperience
+//TODO: resolve code duplication of date generation
 function readWorkexperience (cv) {
     const jobs = cv.skillspassport.learnerinfo.workexperiencelist.workexperience;
     colorCounter['jobs'] = jobs.length;
     for (let i = 0; i < jobs.length; i++) {
-        let fromYear = jobs[i].period.from["@year"];
-        let fromMonth = jobs[i].period.from["@month"].toString();
-        fromMonth = fromMonth.split(" ");
-        fromMonth = fromMonth[2];
+        let fromYear = (jobs[i].period.from["@year"]);
+        let fromMonth = jobs[i].period.from["@month"];
+        fromMonth = jobs[i].period.from["@month"].toString();
+        if (fromMonth.length<=4){
+            fromMonth = fromMonth.slice(2)
+        }
+        else{
+            fromMonth = fromMonth.split(" ");
+            fromMonth = (fromMonth[1]);
+            fromMonth = lookupMonth(fromMonth);
+        }
         let fromDate = new Date(fromYear, fromMonth);
-        console.log(fromDate);
 
         let toDate = new Date();
         if (jobs[i].period.to !== undefined){
-            let toYear = jobs[i].period.to["@year"];
+            let toYear = (jobs[i].period.to["@year"]);
             let toMonth = jobs[i].period.to["@month"].toString();
-            toMonth = toMonth.split(" ");
-            toMonth = toMonth[2];
+            if (toMonth.length<=4){
+                toMonth = toMonth.slice(2)
+            }
+            else{
+                toMonth = toMonth.split(" ");
+                toMonth = (toMonth[1]);
+                toMonth = lookupMonth(toMonth);
+            }
             toDate = new Date(toYear, toMonth);
         }
         jobData[i] = [];
@@ -400,26 +413,59 @@ function readWorkexperience (cv) {
     }
 }
 
+// change Month from string to number
+function lookupMonth (month) {
+    let m =
+      month == 'Jan' ? 1 :
+      month == 'Feb' ? 2 :
+      month == 'Mar' ? 3 :
+      month == 'Apr' ? 4 :
+      month == 'May' ? 5 :
+      month == 'Jun' ? 6 :
+      month == 'Jul' ? 7 :
+      month == 'Aug' ? 8 :
+      month == 'Sep' ? 9 :
+      month == 'Oct' ? 10 :
+      month == 'Nov'? 11 :
+      month == 'Dec' ? 12 :
+      '';
+    return m;
+}
+
 // read education
 function readEducation (cv) {
     const education = cv.skillspassport.learnerinfo.educationlist.education;
     const amountJobs = colorCounter['jobs'];
     colorCounter['education'] = education.length;
     for (let i = 0; i < education.length; i++) {
-        let fromYear = education[i].period.from["@year"];
+        let fromYear = (education[i].period.from["@year"]);
         let fromMonth = education[i].period.from["@month"].toString();
-        fromMonth = fromMonth.split(" ");
-        fromMonth = fromMonth[2];
+
+        if (fromMonth.length<=4){
+            fromMonth = fromMonth.slice(2)
+        }
+        else{
+            fromMonth = fromMonth.split(" ");
+            fromMonth = (fromMonth[1]);
+            fromMonth = lookupMonth(fromMonth);
+        }
         let fromDate = new Date(fromYear, fromMonth);
 
         let toDate = new Date();
         if (education[i].period.to !== undefined){
-            let toYear = education[i].period.to["@year"];
+            let toYear = (education[i].period.to["@year"]);
             let toMonth = education[i].period.to["@month"].toString();
-            toMonth = toMonth.split(" ");
-            toMonth = toMonth[2];
+            if (toMonth.length<=4){
+                toMonth = toMonth.slice(2)
+            }
+            else{
+                toMonth = toMonth.split(" ");
+                toMonth = (toMonth[1]);
+                toMonth = lookupMonth(toMonth);
+            }
             toDate = new Date(toYear, toMonth);
         }
+
         jobData[i+amountJobs] = [];
         let label = 'Schul- und Berufssbildung';
         if (i !== 0){
