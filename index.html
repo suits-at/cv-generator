@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>CV Generator</title>
+  <!--empty favicon-->
+  <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII=" rel="icon" type="image/x-icon" />
   <!--chart.js-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
   <!--googe charts-->
@@ -379,6 +381,7 @@ function readWorkexperience (cv) {
         fromMonth = fromMonth.split(" ");
         fromMonth = fromMonth[2];
         let fromDate = new Date(fromYear, fromMonth);
+        console.log(fromDate);
 
         let toDate = new Date();
         if (jobs[i].period.to !== undefined){
