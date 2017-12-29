@@ -2,4 +2,4 @@
 
 > A  generator to automatically create visualizations out of [europass](https://europass.cedefop.europa.eu/ "europass") cv xml-data.
 >
-> Demo: https://cvgenerator.suits.at 
+> https://cv-generator.suits.at 
