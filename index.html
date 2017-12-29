@@ -18,6 +18,7 @@
   <style>
     html {
       font-family: 'Work Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+      font-size: 20px;
       color: #444;
 
       /* enable smoother fonts */
@@ -29,7 +30,6 @@
       background: -webkit-linear-gradient(to bottom, #fff, #076585);  /* Chrome 10-25, Safari 5.1-6 */
       background: linear-gradient(to bottom, #fff, #076585); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     }
-
     #container{
       width: 1110px;
       min-height: 93vh;
@@ -37,9 +37,18 @@
       padding: 25px;
       background: #fff;
     }
-    #description{
+    #info{
       text-align: center;
       margin: 0 auto;
+    }
+    #description{
+      width: 50%;
+      margin: 0 auto;
+    }
+    #steps{
+      width: 50%;
+      margin: 50px auto;
+      text-align: left;
     }
     #legend p{
       font-size: 16px;
@@ -49,6 +58,11 @@
     .fa {
       font-size: 3rem;
     }
+
+    .fa-external-link{
+      font-size: 1rem;
+    }
+
     #digital{
       grid-template-columns: 3fr 7fr;
       grid-gap: 150px;
@@ -128,18 +142,26 @@
       font-family: 'Work Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
     }
 
+    a{
+      text-decoration: none;
+      color: #2980b9
+    }
+
   </style>
 </head>
 <body>
 <div id="container">
   <i class="fa fa-chevron-circle-left" aria-hidden="true" id="back"><span> zurück</span></i>
   <h1 class="header">CV-Generator</h1>
-  <div id="description">
-<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-
-  Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-
-  Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. </p>
+  <div id="info">
+<p id="description">CV-Generator ist ein Webservice, mit Hilfe dessen man den eigenen Europass Lebenslauf mit Visualisierungen aufwerten kann. Lediglich die folgenden 5 Schritte sind dafür notwendig: </p>
+    <ol id="steps">
+      <li>Europass Lebenslauf erstellen <a href="https://europass.cedefop.europa.eu/editors/de/cv/compose" target="_blank"> <i class="fa fa-external-link" aria-hidden="true"></i></a> </li>
+      <li>Lebenslauf im Microsoft Word und Eurpass XML Format exportieren</li>
+      <li>Europass XML Datei in den CV-Generator importieren</li>
+      <li>Visualisierungen abspeichern (Rechtsklick - Bild speichern unter)</li>
+      <li>Visualisierungen in Microsoft Word Datei einfügen</li>
+    </ol>
 <input type="file" name="files[]" id="files" class="inputfile" data-multiple-caption="{count} files selected" />
 <label for="files"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
   <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h26.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg>
@@ -255,7 +277,7 @@ function drawVis() {
 }
 
 // set all charts to visible
-// hide description + input button
+// hide info + input button
 // add back button
 function changeUI() {
   //set roseCharts to visible
@@ -269,8 +291,8 @@ function changeUI() {
   document.getElementById('starRating').classList.remove('hidden');
   document.getElementById('digital').style.display = 'grid';
 
-  // hide description + input button
-  document.getElementById('description').style.display = 'none';
+  // hide info + input button
+  document.getElementById('info').style.display = 'none';
 
   // show back button + add functionality
   let back = document.getElementById('back');
