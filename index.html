@@ -209,7 +209,7 @@ function handleFileSelect(e) {
     let reader = new FileReader();
     reader.onload = function() {
         file = (reader.result);
-        drawVis(createImages);
+        drawVis();
     };
     // Read the file as a data URL.
     reader.readAsDataURL(file);
@@ -227,33 +227,56 @@ function drawVis() {
             const doc = xhr.responseXML;
             const cv = getJXONTree(doc);
 
-            // timeline
+            // change UI
+            changeUI();
+
+            // read data for timeline
             readWorkexperience(cv);
             readEducation(cv);
+
+            // draw timeline
             google.charts.setOnLoadCallback(drawTimeline);
 
-            // rose charts
+            // read data for roseCharts
             readLanguages(cv);
+
+            // draw roseCharts
             drawRoseChart();
 
-            // star ratings
+            // read data for starRatings and draw them
             readDCDrawStarRatings(cv);
 
-            // hide description + button
-            document.getElementById('description').style.display = 'none';
-
-            // show back button + add functionality
-            let back = document.getElementById('back');
-            back.style.visibility = 'visible';
-            back.addEventListener('click', function() { location.reload(); });
-            back.style.cursor = 'pointer';
-
-          // convert charts to images
-          // createImages();
+            // convert charts to images
+            createImages();
         }
     };
     xhr.open("GET", file, true);
     xhr.send();
+}
+
+// set all charts to visible
+// hide description + input button
+// add back button
+function changeUI() {
+  //set roseCharts to visible
+  document.getElementById('roseCharts').classList.remove('hidden');
+
+  // set timeline to visible
+  document.getElementById('timelineContainer').classList.remove('hidden');
+  document.getElementById('timeline').style.minHeight = '500px';
+
+  //set starRating to visible
+  document.getElementById('starRating').classList.remove('hidden');
+  document.getElementById('digital').style.display = 'grid';
+
+  // hide description + input button
+  document.getElementById('description').style.display = 'none';
+
+  // show back button + add functionality
+  let back = document.getElementById('back');
+  back.style.visibility = 'visible';
+  back.addEventListener('click', function() { location.reload(); });
+  back.style.cursor = 'pointer';
 }
 
 // chart.js rose chart
@@ -372,9 +395,6 @@ function drawRoseChart() {
         };
     }
 
-    //set roseCharts to visible
-    document.getElementById('roseCharts').classList.remove('hidden');
-
   //draw charts
     const chart1 = document.getElementById("roseChart1");
     const chart2 = document.getElementById("roseChart2");
@@ -427,9 +447,6 @@ function drawTimeline() {
         },
         colors: colors,
     };
-    // set timeline to visible
-    document.getElementById('timelineContainer').classList.remove('hidden');
-    container.style.minHeight = '500px';
 
   // draw timeline
     chart.draw(dataTable, options);
@@ -445,10 +462,6 @@ function readDCDrawStarRatings(cv) {
     let threeStar = '<i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i>';
     let el;
     let p;
-
-    //set starRating to visible
-    document.getElementById('starRating').classList.remove('hidden');
-    document.getElementById('digital').style.display = 'grid';
 
     el = document.getElementById('information');
     p = '<p>Datenverarbeitung</p>';
@@ -617,22 +630,18 @@ function readLanguages (cv) {
 
 // convert timeline and starRating to images
 function createImages () {
-  // document ready
-  function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
-  r(function(){
-      // convert timeline to image
-      html2canvas(document.querySelector("#timeline")).then(canvas => {
-          const item = document.querySelector("#timeline");
-          item.innerHTML = '';
-          item.appendChild(canvas);
-      });
+  // convert timeline to image
+  html2canvas(document.querySelector("#timeline")).then(canvas => {
+    const item = document.querySelector("#timeline");
+    item.innerHTML = '';
+    item.appendChild(canvas);
+  });
 
-      // convert starRating to image
-      html2canvas(document.querySelector("#digital")).then(canvas => {
-          const item = document.querySelector("#digital");
-          item.innerHTML = '';
-          item.appendChild(canvas);
-      });
+  // convert starRating to image
+  html2canvas(document.querySelector("#digital")).then(canvas => {
+    const item = document.querySelector("#digital");
+    item.innerHTML = '';
+    item.appendChild(canvas);
   });
 }
 
