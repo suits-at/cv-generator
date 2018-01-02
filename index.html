@@ -50,11 +50,34 @@
       margin: 50px auto;
       text-align: left;
     }
-    #legend p{
-      font-size: 16px;
-      font-weight: bold;
-      margin-top: 5px;
+
+    #legend{
+      margin: 0 auto;
     }
+    #legend .fa{
+      color: #0e4194;
+      font-size: 1rem;
+    }
+
+    #legendTitle{
+      margin-top: 25px;
+      font-size: 14px;
+      color: #0e4194;
+    }
+
+    #legend p{
+      font-size: 12px;
+      margin-top: 5px;
+      color: #0e4194;
+    }
+
+    #legend{
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+      margin-top: 50px;
+      text-align: center;
+    }
+
     .fa {
       font-size: 3rem;
     }
@@ -63,20 +86,15 @@
       font-size: 1rem;
     }
 
-    #digital{
-      grid-template-columns: 3fr 7fr;
-      grid-gap: 150px;
-    }
     #proficiencyLevel{
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
+      text-align: center;
     }
     #proficiencyLevel p{
       margin-bottom: 7px;
     }
-    #legend{
-      text-align: right;
-    }
+
     .hidden{
       display: none;
     }
@@ -190,32 +208,35 @@
 <div id="starRating" class="hidden">
 <h2 id="starRatingHeading">Digitale Kompetenzen</h2>
 <div id="digital">
-  <div id="legend">
-  <div class="star">
-    <i class="fa fa-star" aria-hidden="true"></i>
-    <i class="fa fa-star-o" aria-hidden="true"></i>
-    <i class="fa fa-star-o" aria-hidden="true"></i>
-    <p>elementare Verwendung</p>
-  </div>
-  <div class="star">
-    <i class="fa fa-star" aria-hidden="true"></i>
-    <i class="fa fa-star" aria-hidden="true"></i>
-    <i class="fa fa-star-o" aria-hidden="true"></i>
-    <p>selbstständige Verwendung</p>
-  </div>
-  <div class="star">
-    <i class="fa fa-star" aria-hidden="true"></i>
-    <i class="fa fa-star" aria-hidden="true"></i>
-    <i class="fa fa-star" aria-hidden="true"></i>
-    <p>kompetente Verwendung</p>
-  </div>
-  </div>
   <div id="proficiencyLevel">
     <div class="star" id="information"></div>
     <div class="star" id="communication"></div>
     <div class="star" id="contentcreation"></div>
     <div class="star" id="safety"></div>
     <div class="star" id="problemsolving"></div>
+  </div>
+  <div id="legend">
+    <span>&nbsp;</span>
+    <h3 id="legendTitle">Legende:</h3>
+    <div class="star">
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <i class="fa fa-star-o" aria-hidden="true"></i>
+      <i class="fa fa-star-o" aria-hidden="true"></i>
+      <p>elementare Verwendung</p>
+    </div>
+    <div class="star">
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <i class="fa fa-star-o" aria-hidden="true"></i>
+      <p>selbstständige Verwendung</p>
+    </div>
+    <div class="star">
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <p>kompetente Verwendung</p>
+    </div>
+    <span>&nbsp;</span>
   </div>
 </div>
 </div>
@@ -296,7 +317,6 @@ function changeUI() {
 
   //set starRating to visible
   document.getElementById('starRating').classList.remove('hidden');
-  document.getElementById('digital').style.display = 'grid';
 
   // hide info + input button
   document.getElementById('info').style.display = 'none';
