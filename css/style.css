@@ -1,0 +1,156 @@
+html {
+    font-family: 'Work Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-size: 20px;
+    color: #444;
+
+    /* enable smoother fonts */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /*add background gradient*/
+    background: #076585;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #fff, #076585);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #fff, #076585); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+#container{
+    width: 1110px;
+    min-height: 93vh;
+    margin: 0 auto;
+    padding: 25px;
+    background: #fff;
+}
+#digital p{
+    font-weight: bold;
+}
+#info{
+    text-align: center;
+    margin: 0 auto;
+}
+#description{
+    width: 50%;
+    margin: 0 auto;
+}
+#steps{
+    width: 50%;
+    margin: 50px auto;
+    text-align: left;
+}
+
+#legend .fa{
+    color: #0e4194;
+    font-size: 1rem;
+}
+
+#legend{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    margin-top: 50px;
+    text-align: center;
+}
+
+#legendTitle{
+    margin-top: 25px;
+    font-size: 14px;
+    color: #0e4194;
+}
+
+#legend p{
+    font-size: 12px;
+    margin-top: 5px;
+    color: #0e4194;
+}
+
+.fa {
+    font-size: 3rem;
+    color: #777;
+}
+
+.fa-external-link{
+    font-size: 1rem;
+}
+
+#proficiencyLevel{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+}
+#proficiencyLevel p{
+    margin-bottom: 7px;
+}
+
+.hidden{
+    display: none;
+}
+
+#roseChartGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+/*input field*/
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + label {
+    color: #3498db;
+    border: 2px solid currentColor;
+    max-width: 80%;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+}
+
+.inputfile:focus + label,
+.inputfile.has-focus + label,
+.inputfile + label:hover {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+    color: #2980b9
+}
+
+.inputfile + label svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    margin-right: 0.25em;
+}
+
+.header{
+    text-align: center;
+    margin-top: -35px;
+    margin-bottom: 40px;
+}
+
+#back{
+    font-size: 1.5rem;
+    visibility: hidden;
+}
+#back span{
+    font-family: 'Work Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+}
+
+a{
+    text-decoration: none;
+    color: #2980b9
+}
+
+h2{
+    text-align: center;
+}
+
+#starRatingHeading{
+    margin-top: 80px;
+}
