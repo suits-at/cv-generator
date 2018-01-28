@@ -294,6 +294,15 @@ function drawRoseChart() {
         Chart.defaults.global.legend.display=false;
       }
       charts[i] = document.getElementById("roseChart"+i);
+
+      // set background to white, even when chart will be exported to image
+      Chart.plugins.register({
+        beforeDraw: function(chartInstance) {
+          charts[i] = chartInstance.chart.ctx;
+          charts[i].fillStyle = "white";
+          charts[i].fillRect(0, 0, chartInstance.chart.width, chartInstance.chart.height);
+        }
+      });
       window.myPolarArea = Chart.PolarArea(charts[i], config[i]);
       first = false;
     }
