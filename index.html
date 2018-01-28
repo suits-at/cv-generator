@@ -13,7 +13,7 @@
   <link href="css/style.css" rel="stylesheet">
   <!--chart.js-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-  <!--googe charts-->
+  <!--google charts-->
   <script src="https://www.gstatic.com/charts/loader.js"></script>
   <!--html2canvas-->
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -44,8 +44,6 @@
 <div id="roseCharts" class="hidden">
   <h2 id="roseChartHeading">Sprachkenntnisse</h2>
   <div id="roseChartGrid" style="width:50%">
-    <canvas id="roseChart1" class="roseChart"></canvas>
-    <canvas id="roseChart2" class="roseChart"></canvas>
   </div>
 </div>
 
@@ -173,7 +171,6 @@ function changeUI() {
 }
 
 // chart.js rose chart
-// TODO: create multiple roseCharts dynamically
 function drawRoseChart() {
     window.chartColors = {
         color1: '#f0f9e8',
@@ -189,7 +186,7 @@ function drawRoseChart() {
     Chart.defaults.global.defaultFontSize = 14;
     Chart.defaults.global.defaultColor = '#fff';
 
-    let config = [];
+    const config = [];
     for(let i=0; i<languageDataLabel.length;i++){
 
         let myData = [];
@@ -240,7 +237,6 @@ function drawRoseChart() {
                 responsive: true,
                 legend: {
                     position: 'left',
-                    // display: false,
                 },
                 title: {
                     display: true,
@@ -286,14 +282,21 @@ function drawRoseChart() {
                 }
             }
         };
-    }
 
-  //draw charts
-    const chart1 = document.getElementById("roseChart1");
-    const chart2 = document.getElementById("roseChart2");
-    window.myPolarArea = Chart.PolarArea(chart1, config[0]);
-    Chart.defaults.global.legend.display=false;
-    window.myPolarArea = Chart.PolarArea(chart2, config[1]);
+        document.getElementById('roseChartGrid').insertAdjacentHTML('beforeend', '<canvas id="roseChart' + i + '" class="roseChart"></canvas>');
+    }
+    //draw charts
+    let first = true;
+    const charts = [];
+
+    for(let i=0; i<languageDataLabel.length;i++){
+      if(!first) {
+        Chart.defaults.global.legend.display=false;
+      }
+      charts[i] = document.getElementById("roseChart"+i);
+      window.myPolarArea = Chart.PolarArea(charts[i], config[i]);
+      first = false;
+    }
 }
 
 // goole charts timeline
