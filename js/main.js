@@ -161,32 +161,32 @@ function drawRoseChart() {
         //change start angle for better legibility
         startAngle: 1.3 * Math.PI,
         scale: {
-          ticks: {
-            beginAtZero: false,
-            min: 0,
-            max: 6,
-            maxTicksLimit: 6,
-            suggestedMin: 6,
-            suggestedMax: 6,
-            stepSize: 1,
-            //change labeling
-            callback: function(label) {
-              switch (label) {
-                case 1:
-                  return 'A1';
-                case 2:
-                  return 'A2';
-                case 3:
-                  return 'B1';
-                case 4:
-                  return 'B2';
-                case 5:
-                  return 'C1';
-                case 6:
-                  return 'C2';
-              }
+        ticks: {
+          beginAtZero: false,
+          min: 0,
+          max: 6,
+          maxTicksLimit: 6,
+          suggestedMin: 6,
+          suggestedMax: 6,
+          stepSize: 1,
+          //change labeling
+          callback: function(label) {
+            switch (label) {
+              case 1:
+                return 'A1';
+              case 2:
+                return 'A2';
+              case 3:
+                return 'B1';
+              case 4:
+                return 'B2';
+              case 5:
+                return 'C1';
+              case 6:
+                return 'C2';
             }
-          },
+          }
+        },
           reverse: false
         },
         animation: {
